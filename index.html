@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>Puzzles</title>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/Resemble.js-master/resemble.js"></script>
+    <script src="js/script.js" charset="utf-8"></script>
+    <script src="js/html2canvas.js" charset="utf-8"></script>
+  </head>
+  <body>
+    <div class="container clearfix">
+      <h1 class="page-title">Puzzles</h1>
+      <div class="game-parts" id="game-parts">
+
+      </div>
+      <section class="info">
+        <div class="info-text">
+          <p id="lvl-text">Уровень: <span class="lvl" id="lvl">1</span></p>
+          <p id="counter-text">Всего пазлов: <span class="counter" id="counter">8</span></p>
+          <p id="percent-text">Совпадение: <span class="percent" id="percent">0%</span></p>
+        </div>
+        <div class="info-img">
+          <img src="images/img-1.jpg" alt="исходный пазл" id="main-img">
+        </div>
+      </section>
+      <section class="game">
+        <div class="game-field" id="game-field">
+
+        </div>
+      </section>
+      <button class="btn check-btn" id="check-btn">Проверить</button>
+      <button class="btn next-lvl-btn" id="next-lvl-btn" disabled>Следующий уровень</button>
+      <aside class="modal" id="modal">
+        <div class="modal-content modal-1">
+          <button class="modal-close"></button>
+          <p class="text">
+            Привет!
+          </p>
+          <p class="text">
+            Начнем с того, что такое «Пазл».
+          </p>
+          <p class="text text-important">
+            Пазл — это игра-головоломка, в которой требуется составить мозаику из множества фрагментов рисунка.
+          </p>
+          <a class="btn-next" href="#" data-modal-number="1">Дальше</a>
+        </div>
+        <div class="modal-content modal-2">
+          <button class="modal-close"></button>
+          <p class="text">
+            Тебе нужно будет перетаскивать пазлы <p class="text-allotted" data-target="#game-parts">отсюда</p> <p class="text-allotted" data-target="#game-field">сюда</p>, чтобы в итоге получить картинку как на <p class="text-allotted" data-target=".info-img">образце</p>.
+          </p>
+          <a class="btn-next" href="#" data-modal-number="2">Дальше</a>
+        </div>
+        <div class="modal-content modal-3">
+          <button class="modal-close"></button>
+          <p class="text">
+             Нажав на кнопку <p class="text-allotted" data-target="#check-btn">«Проверить»</p>, можно увидеть свой <p class="text-allotted" data-target="#percent-text">прогресс</p>.
+          </p>
+          <a class="btn-next" href="#" data-modal-number="3">Дальше</a>
+        </div>
+        <div class="modal-content modal-4">
+          <button class="modal-close"></button>
+          <p class="text">
+             Набрав необходимый <p class="text-allotted" data-target="#percent-text">% совпадения</p>, ты сможешь перейти на <p class="text-allotted" data-target="#next-lvl-btn">следующий уровень</p>.
+          </p>
+          <a class="btn-next" href="#" data-modal-number="4">Дальше</a>
+        </div>
+        <div class="modal-content modal-5">
+          <button class="modal-close"></button>
+          <p class="text">
+             <p class="text-allotted" data-target="#counter-text">Количество пазлов</p> будет возрастать с увеличением <p class="text-allotted" data-target="#lvl-text">уровня</p>.
+          </p>
+          <a class="btn-next" href="#">Понятно</a>
+        </div>
+        <div class="modal-content modal-f">
+          <button class="modal-close"></button>
+          <div class="modal-col">
+            <h2 class="modal-title">Поздравляю!<br>Ты научился собирать пазлы!</h2>
+            <p class="modal-text">Что будешь делать дальше?</p>
+            <a href="#" class="modal-btn" onclick="startAgain()">Начать заново</a>
+            <a href="#" class="modal-btn" onclick="goToNextLvl(this)">Продолжить собирать паззлы</a>
+          </div>
+          <div class="img-wrapper">
+            <p class="text">Молодец!</p>
+            <img src="images/modal1.jpg" alt="" class="modal-img">
+          </div>
+        </div>
+        <div class="modal-content modal-test">
+          <button class="modal-close"></button>
+        </div>
+      </aside>
+      <!-- <p class="open">Открыть это</p> -->
+      <!--div class="test-img">
+
+      </div>
+
+      <div class="info-img">
+        <img src="images/img-1.jpg" alt="исходный пазл" id="main-img1">
+      </div>
+      <div class="info-img compare-img" id="compare-img">
+
+      </div-->
+    </div>
+  </body>
+</html>
