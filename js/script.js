@@ -65,7 +65,7 @@ GameLevel.prototype.cropImg = function() {
       }
     }
   }
-  // this.imgList.shuffle();
+  this.imgList.shuffle();
   for (i = 0; i < this.imgList.length; i++) {
     document.getElementById('game-parts').appendChild(this.imgList[i].dom);
   }
@@ -189,10 +189,10 @@ function readyToNextLvl() {
   nextLvlBtn.classList.add("lvl-active");
   nextLvlBtn.removeAttribute("disabled");
   nextLvlBtn.onclick = function() { goToNextLvl(this) };
-  // if (game.level == 3) {
-  //   closeButOpen('.modal-f');
-  //   document.querySelector('#modal').classList.add('active');
-  // }
+  if (game.level == 3) {
+    closeButOpen('.modal-f');
+    document.querySelector('#modal').classList.add('active');
+  }
 }
 
 function disableReadyBtn() {
