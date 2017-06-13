@@ -36,14 +36,33 @@ GameLevel.prototype.changeText = function() {
   document.getElementById('percent').innerHTML = "0%";
 }
 GameLevel.prototype.cropImg = function() {
-  var imgId = 0;
-  for (var i = 0; i < this.parts; i++) {
-    var y = this.field.offsetHeight / this.parts * i;
-    for (var j = 0; j < this.parts*2; j++) {
-      var x = this.field.offsetWidth / this.parts / 2 * j;
-      this.imgList[imgId] = new Img(x, y, this.field.offsetHeight / this.parts, this.img.src);
-      this.imgList[imgId].dom.setAttribute('id', imgId);
-      imgId++;
+  var imgId = 0,
+      x = 0,
+      y = 0,
+      w;
+  if (this.level == 2) {
+    for (var i = 0; i < 4; i++) {
+      y = 100 * i;
+      for (var j = 0; j < 5; j++) {
+        x = 160 * j,
+        w = 160,
+        h = 100;
+        this.imgList[imgId] = new Img(x, y, w, h, this.img.src);
+        this.imgList[imgId].dom.setAttribute('id', imgId);
+        imgId++;
+      }
+    }
+    this.allParts = 20;
+  } else {
+    for (var i = 0; i < this.parts; i++) {
+      y = this.field.offsetHeight / this.parts * i;
+      for (var j = 0; j < this.parts*2; j++) {
+        x = this.field.offsetWidth / this.parts / 2 * j,
+        w = this.field.offsetHeight / this.parts;
+        this.imgList[imgId] = new Img(x, y, w, w, this.img.src);
+        this.imgList[imgId].dom.setAttribute('id', imgId);
+        imgId++;
+      }
     }
   }
   // this.imgList.shuffle();
@@ -53,23 +72,23 @@ GameLevel.prototype.cropImg = function() {
 }
 GameLevel.prototype.newLvl = function() {
   var gl = this;
-  this.clearPuzzles();
-  this.changeText();
   this.changeImg();
   this.img.onload = function() {
+    gl.clearPuzzles();
     gl.cropImg();
+    gl.changeText();
   }
 }
 
-function Img(x, y, width, img) {
+function Img(x, y, width, height, img) {
   var fieldPart = document.createElement('div');
   fieldPart.style.width = width + "px";
-  fieldPart.style.height = width + "px";
+  fieldPart.style.height = height + "px";
   document.getElementById('game-field').appendChild(fieldPart);
 
   this.dom = document.createElement('div');
   this.dom.style.width = width + "px";
-  this.dom.style.height = width + "px";
+  this.dom.style.height = height + "px";
   this.dom.style.backgroundImage = "url(" + img + ")";
   this.dom.style.backgroundPosition = -x + "px " + -y + "px";
 
@@ -78,8 +97,6 @@ function Img(x, y, width, img) {
   fieldPart.setAttribute('ondragenter', 'return dragEnter(event)');
   fieldPart.setAttribute('ondrop', 'return dragDrop(event)');
   fieldPart.setAttribute('ondragover', 'return dragOver(event)');
-  // this.dom.addEventListener('dragstart', dragStart, false);
-  // console.log("heh", width, this.dom);
 }
 
 function dragStart(ev) {
@@ -138,14 +155,20 @@ function compareAndResult(file1, file2) {
       percent,
       color = "#000",
       resultImg = new Image();
-      diff = resemble(file1).compareTo(file2).scaleToSameSize().ignoreColors().onComplete(function(data) {
+      diff = resemble(file1).compareTo(file2).ignoreColors().onComplete(function(data) {
     // .ignoreAntialiasing()
   	resultImg.src = data.getImageDataUrl();
 
       // тестовая фигня
-    testImgInsert(resultImg);
+    // testImgInsert(resultImg);
 
     percent = 100 - Math.ceil(data.misMatchPercentage);
+    if (game.level > 3 && document.getElementById('game-parts').innerHTML == "") {
+      percent += 5;
+      if (percent > 100) {
+        percent = 100;
+      }
+    }
     changePercent(percentField, percent);
     return data;
   });
@@ -166,10 +189,10 @@ function readyToNextLvl() {
   nextLvlBtn.classList.add("lvl-active");
   nextLvlBtn.removeAttribute("disabled");
   nextLvlBtn.onclick = function() { goToNextLvl(this) };
-  if (game.level == 3) {
-    closeButOpen('.modal-f');
-    document.querySelector('#modal').classList.add('active');
-  }
+  // if (game.level == 3) {
+  //   closeButOpen('.modal-f');
+  //   document.querySelector('#modal').classList.add('active');
+  // }
 }
 
 function disableReadyBtn() {
@@ -197,7 +220,6 @@ function changePercent(percentField, percent) {
 
   if (percent >= 0) {
     color = "#ff0000";
-    readyToNextLvl();
   }
   if (percent >= 30) {
     color = "#ffff00";
@@ -207,6 +229,7 @@ function changePercent(percentField, percent) {
   }
   if (percent >= 90) {
     color = "#00bb00";
+    readyToNextLvl();
   }
   percentField.style.color = color;
 }
@@ -317,7 +340,6 @@ function openModal() {
   [].forEach.call(document.querySelectorAll('.open, .modal-close'), function(item) {
     item.addEventListener('click', function(event) {
         event.preventDefault();
-        console.log('h');
         document.querySelector('#modal').classList.toggle('active');
     });
   });
