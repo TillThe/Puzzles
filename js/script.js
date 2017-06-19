@@ -312,6 +312,9 @@ document.addEventListener('DOMContentLoaded', openModal, false);
 
 document.addEventListener('DOMContentLoaded', function() {
 
+  // special for game-field
+  document.getElementById("game-field").style.backgroundImage = "none";
+  
   closeButOpen('.modal-1');
   document.querySelector('#modal').classList.add('active');
 
@@ -322,6 +325,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelector("#modal").classList.remove("active");
       } else {
         var nextModal = ".modal-" + (parseInt(event.target.getAttribute("data-modal-number")) + 1);
+
         closeButOpen(nextModal);
       }
     });
@@ -331,10 +335,19 @@ document.addEventListener('DOMContentLoaded', function() {
     item.addEventListener('mouseover', function(event) {
       var target = event.target.getAttribute("data-target");
       document.querySelector(target).classList.add("allotted-element");
+      // special for game-field
+      if (target == "#game-field") {
+        document.getElementById("game-field").style.backgroundImage = "";
+      }
     });
     item.addEventListener('mouseout', function(event) {
       var target = event.target.getAttribute("data-target");
       document.querySelector(target).classList.remove("allotted-element");
+
+      // special for game-field
+      if (target == "#game-field") {
+        document.getElementById("game-field").style.backgroundImage = "none";
+      }
     });
   });
 

@@ -110,6 +110,9 @@ body, button {
   min-width: 800px;
   height: 400px;
   background-color: #fff;
+  background-image: url("../images/work_img.png");
+  background-repeat: no-repeat;
+  background-position: 51px 14px;
 }
 .game-field div {
   display: inline-block;
