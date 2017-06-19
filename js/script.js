@@ -94,6 +94,10 @@ function Img(x, y, width, height, img) {
 
   this.dom.setAttribute('draggable', 'true');
   this.dom.setAttribute('ondragstart', 'return dragStart(event)');
+  this.dom.setAttribute('ondragenter', 'return dragEnter(event)');
+  this.dom.setAttribute('ondrop', 'return dragDrop(event)');
+  this.dom.setAttribute('ondragover', 'return dragOver(event)');
+
   fieldPart.setAttribute('ondragenter', 'return dragEnter(event)');
   fieldPart.setAttribute('ondrop', 'return dragDrop(event)');
   fieldPart.setAttribute('ondragover', 'return dragOver(event)');
@@ -115,13 +119,20 @@ function dragOver(ev) {
 }
 function dragDrop(ev) {
    var data = ev.dataTransfer.getData("Text"),
+       dragEl = window.dragSrcEl,
        dragParent = window.dragSrcEl.parentNode,
-       evParent = ev.target.parentNode;
-   if (window.dragSrcEl.getAttribute('ondragstart') == ev.target.getAttribute('ondragstart')) {
-     dragParent.appendChild(ev.target);
-     evParent.appendChild(window.dragSrcEl);
+       evParent = ev.target.parentNode,
+       gameParts = document.getElementById("game-parts");
+   if (window.dragSrcEl.getAttribute('ondragstart') ==  ev.target.getAttribute('ondragstart')) {
+     if (dragParent == gameParts) {
+       dragParent.insertBefore(ev.target, dragEl.nextSibling);
+       evParent.appendChild(dragEl);
+     } else {
+       evParent.insertBefore(dragEl, ev.target.nextSibling);
+       dragParent.appendChild(ev.target);
+     }
   } else {
-    ev.target.appendChild(window.dragSrcEl);
+    ev.target.appendChild(dragEl);
   }
    ev.stopPropagation();
    return false;
